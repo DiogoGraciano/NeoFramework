@@ -1,0 +1,9 @@
+User-agent: *
+Disallow: /assets/js
+Disallow: /assets/fonts
+Disallow: /assets/css
+Disallow: /app
+Disallow: /core
+Disallow: /log
+Disallow: /sql
+Disallow: /vendor

@@ -1,0 +1,8 @@
+.vscode/*
+Cache/*
+vendor/*
+Logs/*
+public/assets/imagens/*
+public/assets/js/*
+public/assets/css/*
+tailwindcss
