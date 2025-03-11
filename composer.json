@@ -1,5 +1,5 @@
 {
-    "name": "neoframework/base",
+    "name": "neoframework/neoframework",
     "description": "Neoframework",
     "type": "project",
     "autoload": {
