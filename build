@@ -6,8 +6,6 @@ use Core\Bundler;
 
 try{
 
-    shell_exec("./tailwindcss -i ./Resources/Css/main.css -o ./Resources/Css/tailwind.css --minify");
-
     $config = include "Config".DIRECTORY_SEPARATOR."bundler.config.php";
 
     Bundler::build($config);
