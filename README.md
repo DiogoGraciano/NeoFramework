@@ -479,10 +479,12 @@ php migrate
 
 ## Bundler
 
+```
 your-project/
 ├── Resources/
 │   ├── Js/    # JS files for your project
 │   ├── Css/   # CSS files for your project
+```
 
 After placing the files in this folder
 just call the following command
@@ -492,9 +494,11 @@ php build
 ```
 They will be compiled to the public folder
 
+```
 your-project/
 ├── Config/
 │   ├── bundler.config.php    # Here you can configure which files will be compiled
+```
 
 ```php
 <?php 
