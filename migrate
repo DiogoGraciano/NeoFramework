@@ -7,7 +7,7 @@ require "bootstrap.php";
 use Diogodg\Neoorm\Migrations\GeneretePhpDoc;
 use Diogodg\Neoorm\Migrations\Migrate;
 
-(new Migrate)->execute(!empty($recrete));
+(new Migrate)->execute($recrete == "recreate");
 
 if($_ENV["ENVIRONMENT"] == "dev")
     (new GeneretePhpDoc)->execute();
