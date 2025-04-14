@@ -87,6 +87,22 @@ class UserController
 }
 ```
 
+#### Rewrite of routes
+
+```
+your-project/
+├── Config/
+│   ├── route_rewrite.config.php    # Here you can configure a rewrite of a route
+```
+
+```php
+<?php 
+
+return [
+    "your-route-first-parmeter-path" => "YourRouteController",
+];
+```
+
 ### Middleware System
 
 #### Middleware Class
@@ -172,6 +188,128 @@ if ($validator->hasError()) {
     Message::setError(...$validator->getErrors());
 }
 ```
+
+## Dependency Injection in NeoFramework
+
+NeoFramework uses [PHP-DI](https://php-di.org/) to handle dependency injection, providing an elegant way to manage class dependencies and promote cleaner, more testable code.
+
+### Automatic Constructor Injection
+
+The framework automatically resolves and injects dependencies declared in your class constructors:
+
+```php
+use NeoFramework\Core\Attributes\Route;
+use NeoFramework\Core\Attributes\Middleware;
+use App\Models\User;
+
+class UserController
+{
+    public function __construct(private User $user)
+    {
+        // The User model is automatically injected
+    }
+    
+    #[Route("index", ['GET', 'POST'])]
+    #[Middleware(new Auth(true))]
+    public function index()
+    {
+        $this->user->get(1);
+        // Controller logic here
+    }
+    
+    #[Route("show/{:any}/{:num:optional}")]
+    public function show(string $str, int|float $id)
+    {
+        // Controller logic here
+    }
+}
+```
+
+### Using PHP-DI Attributes
+
+NeoFramework leverages PHP 8's attribute system combined with PHP-DI's attribute support for more flexible dependency injection:
+
+```php
+use DI\Attribute\Inject;
+
+class Example
+{
+    /**
+     * Inject dependency based on property type
+     */
+    #[Inject]
+    private Foo $property1;
+    
+    /**
+     * Inject a named dependency
+     */
+    #[Inject('db.host')]
+    private $property2;
+    
+    /**
+     * Alternative named parameter syntax
+     */
+    #[Inject(name: 'db.host')]
+    private $property3;
+    
+    /**
+     * Combined constructor and attribute injection
+     */
+    public function __construct(Foo $foo, #[Inject('db.host')] $dbHost)
+    {
+        // $foo is resolved by type
+        // $dbHost is injected from the 'db.host' container entry
+    }
+    
+    /**
+     * Method injection using type hints
+     */
+    #[Inject]
+    public function method1(Foo $param)
+    {
+        // $param is automatically injected
+    }
+    
+    /**
+     * Method injection with named parameters
+     * Note: #[Inject] must be placed on the method too
+     */
+    #[Inject]
+    public function method2(#[Inject('db.host')] $param)
+    {
+        // $param receives the 'db.host' value
+    }
+    
+    /**
+     * Multiple parameter injection using an array
+     */
+    #[Inject(['db.host', 'db.name'])]
+    public function method3($param1, $param2)
+    {
+        // $param1 receives 'db.host'
+        // $param2 receives 'db.name'
+    }
+    
+    /**
+     * Mixed injection with named parameters and type hints
+     */
+    #[Inject(['param2' => 'db.host'])]
+    public function method4(Foo $param1, $param2)
+    {
+        // $param1 is resolved by type
+        // $param2 receives 'db.host'
+    }
+}
+```
+
+## Benefits
+
+- **Simplifies code** by removing manual object instantiation
+- **Improves testability** through easier dependency mocking
+- **Enhances maintainability** by reducing tight coupling between components
+- **Supports autowiring** for automatic resolution based on type hints
+
+For more information, visit the [PHP-DI documentation](https://php-di.org/doc/understanding-di.html).
 
 ### Cache
 
