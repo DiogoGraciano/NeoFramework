@@ -25,7 +25,7 @@ NeoFramework is a modern and robust PHP framework that offers a complete structu
 
 1. Clone the repository:
 ```bash
-composer create-project diogodg/neoframework your-project-name
+composer create-project neoframework/neoframework your-project-name
 ```
 
 2. Install dependencies:
