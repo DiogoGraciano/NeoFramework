@@ -1,6 +1,6 @@
 <?php
 
-require '../bootstrap.php';
+require '../vendor/autoload.php';
 
 use NeoFramework\Core\Kernel;
 
