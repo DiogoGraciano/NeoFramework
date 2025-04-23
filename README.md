@@ -674,6 +674,9 @@ use Ahc\Cli\Output\Color;
 
 class YourCommand extends Command
 {
+    //alias for yout command
+    const ALIAS = "yc"
+
     public function __construct()
     {   
         // Define command name and description
