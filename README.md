@@ -45,7 +45,8 @@ cp .env.example .env
 ```
 your-project/
 ├── App/
-│   ├── Controllers/    # Application controllers
+│   ├── Commands/      # Application cli commands
+│   ├── Controllers/   # Application controllers
 │   ├── Models/        # Data models
 │   ├── View/          # View templates
 │   ├── Services/      # Business logic services
@@ -652,13 +653,167 @@ return [
 ];
 ```
 
+## NeoFramework CLI Commands
+
+The NeoFramework uses [adhocore/php-cli](https://github.com/adhocore/php-cli) to handle command-line operations in a structured and developer-friendly way.
+
+### Overview
+
+NeoFramework CLI commands provide a standardized approach to performing common development tasks, such as database migrations, code generation, and application management. Each command is designed to be intuitive and follows a consistent pattern for ease of use.
+
+### Creating Commands
+
+Commands in NeoFramework extend the `Ahc\Cli\Input\Command` class from the adhocore/php-cli library. Here's how to create a custom command:
+
+```php
+<?php 
+namespace App\Commands;
+
+use Ahc\Cli\Input\Command;
+use Ahc\Cli\Output\Color;
+
+class YourCommand extends Command
+{
+    public function __construct()
+    {   
+        // Define command name and description
+        parent::__construct("command-name", "Description of what your command does");
+        
+        // Set version and add command options
+        $this->version("1.0")
+             ->option("-s --some-option", "Description of this option");
+    }
+
+    public function execute($someOption)
+    {
+        $color = new Color;
+        
+        try {
+            // Your command logic here
+            echo $color->green("Command executed successfully!");
+        }
+        catch(\Exception $e) {
+            echo $color->error($e->getMessage() . PHP_EOL . $e->getTraceAsString());
+        }
+    }
+}
+```
+
+### Example: Database Migration Command
+
+Below is an example of the built-in migration command that handles database schema updates:
+
+```php
+<?php 
+namespace App\Commands;
+
+use Ahc\Cli\Input\Command;
+use Ahc\Cli\Output\Color;
+use Diogodg\Neoorm\Migrations\GeneretePhpDoc;
+use Diogodg\Neoorm\Migrations\Migrate as MigrationsMigrate;
+use Exception;
+use NeoFramework\Core\Kernel;
+
+class Migrate extends Command
+{
+    public function __construct()
+    {   
+        parent::__construct("migrate", "Make migration of your database");
+        
+        $this->version("1.0")->option("-r --recreate", "Recreate your database");
+    }
+
+    public function execute(null|bool $recreate)
+    {
+        $color = new Color;
+        
+        try {
+            Kernel::loadEnv();
+            (new MigrationsMigrate)->execute(is_null($recreate));
+            
+            if(env("ENVIRONMENT") != "prod") {
+                (new GeneretePhpDoc)->execute();
+            }
+            
+            echo $color->green("Migration completed successfully!");
+        }
+        catch(Exception $e) {
+            echo $color->error($e->getMessage().PHP_EOL.$e->getTraceAsString());
+        }
+    }
+}
+```
+
+### Usage
+
+To use CLI commands in your NeoFramework application:
+
+1. Run commands from your project root directory
+2. Use the following syntax:
+
+```bash
+php neof command-name [options]
+```
+
+### Examples:
+
+```bash
+# Run database migration
+php neof migrate
+
+# Run database migration with recreate option
+php neof migrate --recreate
+
+# Show help for a command
+php neof help migrate
+
+# List all available commands
+php neof list
+```
+
+### Command Features
+
+- **Automatic Help Generation**: Each command comes with automatically generated help documentation
+- **Option Handling**: Short (-x) and long (--option) option formats are supported
+- **Colorized Output**: Use the Color class to make output more readable
+- **Error Handling**: Structured exception handling with helpful error messages
+- **Environment Awareness**: Commands can behave differently based on the environment (dev, prod, etc.)
+
+### Adding Your Commands
+
+Place your custom commands in the `App\Commands` namespace to have them automatically discovered by the framework.
+
+### Further Documentation
+
+For more details on the underlying CLI library capabilities, refer to the [adhocore/php-cli documentation](https://github.com/adhocore/php-cli).
+
 ## Configuration
 
 The framework uses environment variables for configuration. Configure your `.env` file with the following variables:
 
 ```env
+FIRSTKEY = "key"
+SECONDKEY = "sec"
 ENVIRONMENT=dev
-PATH_CONTROLLERS=App/Controllers
+DRIVER=pgsql
+DBHOST=postgres
+DBPORT=5432
+DBNAME=gamelobby
+DBCHARSET=utf8mb4
+DBUSER=postgres
+DBPASSWORD=postgres
+PATH_MODEL=./App/Models
+MODEL_NAMESPACE=App\Models
+SMTP_SERVIDOR=""
+SMTP_PORT=""
+SMTP_USUARIO=""
+SMTP_SENHA=""
+SMTP_ENCRYPTION=""
+SMTP_EMAIL=""
+SMTP_NOME=""
+AWS_VERSION=latest
+AWS_REGION=us-west-2
+AWS_BUCKETNAME=bucket1
 ```
 
 ## Security
