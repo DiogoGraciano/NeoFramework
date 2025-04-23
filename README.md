@@ -765,10 +765,10 @@ php neof migrate
 php neof migrate --recreate
 
 # Show help for a command
-php neof help migrate
+php neof migrate -h
 
 # List all available commands
-php neof list
+php neof
 ```
 
 ### Command Features
