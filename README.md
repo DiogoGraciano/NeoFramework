@@ -747,6 +747,80 @@ class Migrate extends Command
 }
 ```
 
+## Jobs Queue System
+
+The NeoFramework provides a robust job queue system that allows you to process tasks asynchronously. The system supports multiple queue drivers and includes features like job retries, locking, and failure handling.
+
+### Features
+
+- Multiple queue drivers (Redis, Files)
+- Job retry mechanism with configurable attempts
+- Job locking to prevent duplicate processing
+- Automatic failure handling
+- Queue prioritization
+- Background processing
+
+### Configuration
+
+Set the queue driver in your environment file:
+
+```env
+QUEUE_DRIVER=redis  # or 'files'
+```
+
+### Usage
+
+1. Create a job class:
+
+```php
+use NeoFramework\Core\Abstract\Job;
+
+class ProcessOrderJob extends Job
+{
+    public function handle()
+    {
+        // Your job logic here
+    }
+}
+```
+
+2. Dispatch a job:
+
+```php
+//dispache a job
+ProcessOrderJob::dispatch(array $args = [], ?\DateTime $schedule = null,string $queue = "default")
+
+//dispache with a schedule time
+ProcessOrderJob::later(\DateTime $schedule, array $args = [],string $queue = "default")
+```
+
+3. Process jobs:
+
+Run this command on terminal
+
+```bash
+php neof queue:work
+```
+
+### Job Processing
+
+- Jobs are processed in the order they are queued
+- Failed jobs are automatically retried (default: 3 attempts)
+- Jobs can be locked to prevent duplicate processing
+- Failed jobs are marked with error messages for debugging
+
+### Queue Drivers
+
+#### Redis Driver
+- Fast and reliable
+- Supports multiple workers
+- Requires Redis server
+
+#### Files Driver
+- Simple file-based storage
+- Good for development and testing
+- No external dependencies
+
 ### Usage
 
 To use CLI commands in your NeoFramework application:
