@@ -9,6 +9,7 @@ NeoFramework is a modern and robust PHP framework that offers a complete structu
 - 📧 Email Management
 - 📝 Template System
 - 💾 Cache and File Storage
+- 🧑‍💼 Jobs Queues
 - 📋 Data Validation
 - 🔐 Session Management
 - 📊 Logging System
