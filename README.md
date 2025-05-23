@@ -9,6 +9,7 @@ NeoFramework is a modern and robust PHP framework that offers a complete structu
 - 📧 Email Management
 - 📝 Template System
 - 💾 Cache and File Storage
+- 🧑‍💼 Jobs Queues
 - 📋 Data Validation
 - 🔐 Session Management
 - 📊 Logging System
@@ -746,6 +747,48 @@ class Migrate extends Command
     }
 }
 ```
+### Usage
+
+To use CLI commands in your NeoFramework application:
+
+1. Run commands from your project root directory
+2. Use the following syntax:
+
+```bash
+php neof command-name [options]
+```
+
+### Examples:
+
+```bash
+# Run database migration
+php neof migrate
+
+# Run database migration with recreate option
+php neof migrate --recreate
+
+# Show help for a command
+php neof migrate -h
+
+# List all available commands
+php neof
+```
+
+### Command Features
+
+- **Automatic Help Generation**: Each command comes with automatically generated help documentation
+- **Option Handling**: Short (-x) and long (--option) option formats are supported
+- **Colorized Output**: Use the Color class to make output more readable
+- **Error Handling**: Structured exception handling with helpful error messages
+- **Environment Awareness**: Commands can behave differently based on the environment (dev, prod, etc.)
+
+### Adding Your Commands
+
+Place your custom commands in the `App\Commands` namespace to have them automatically discovered by the framework.
+
+### Further Documentation
+
+For more details on the underlying CLI library capabilities, refer to the [adhocore/php-cli documentation](https://github.com/adhocore/php-cli).
 
 ## Jobs Queue System
 
@@ -820,50 +863,7 @@ php neof queue:work
 - Simple file-based storage
 - Good for development and testing
 - No external dependencies
-
-### Usage
-
-To use CLI commands in your NeoFramework application:
-
-1. Run commands from your project root directory
-2. Use the following syntax:
-
-```bash
-php neof command-name [options]
-```
-
-### Examples:
-
-```bash
-# Run database migration
-php neof migrate
-
-# Run database migration with recreate option
-php neof migrate --recreate
-
-# Show help for a command
-php neof migrate -h
-
-# List all available commands
-php neof
-```
-
-### Command Features
-
-- **Automatic Help Generation**: Each command comes with automatically generated help documentation
-- **Option Handling**: Short (-x) and long (--option) option formats are supported
-- **Colorized Output**: Use the Color class to make output more readable
-- **Error Handling**: Structured exception handling with helpful error messages
-- **Environment Awareness**: Commands can behave differently based on the environment (dev, prod, etc.)
-
-### Adding Your Commands
-
-Place your custom commands in the `App\Commands` namespace to have them automatically discovered by the framework.
-
-### Further Documentation
-
-For more details on the underlying CLI library capabilities, refer to the [adhocore/php-cli documentation](https://github.com/adhocore/php-cli).
-
+- 
 ## Configuration
 
 The framework uses environment variables for configuration. Configure your `.env` file with the following variables:
