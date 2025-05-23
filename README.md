@@ -57,6 +57,7 @@ your-project/
 ├── Config/            # Configuration files
 ├── Logs/             # Application logs
 ├── Resources/        # Frontend assets
+├── Tests/            # Tests Repository
 ├── Cache/           # Cache files
 ├── public/          # Public directory (web root)
 └── vendor/          # Composer dependencies
